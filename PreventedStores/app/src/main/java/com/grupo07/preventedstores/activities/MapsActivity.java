@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores;
+package com.grupo07.preventedstores.activities;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -14,6 +14,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.popupWindows.ShowStoreWindow;
+import com.grupo07.preventedstores.objects.Store;
+import com.grupo07.preventedstores.popupWindows.StoreFormWindow;
+import com.grupo07.preventedstores.database.StoreDatabase;
 
 import java.util.ArrayList;
 

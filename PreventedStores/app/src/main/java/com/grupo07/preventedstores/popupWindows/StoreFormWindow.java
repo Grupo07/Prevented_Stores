@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores;
+package com.grupo07.preventedstores.popupWindows;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
+import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.objects.Store;
+import com.grupo07.preventedstores.activities.MapsActivity;
+import com.grupo07.preventedstores.database.StoreDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

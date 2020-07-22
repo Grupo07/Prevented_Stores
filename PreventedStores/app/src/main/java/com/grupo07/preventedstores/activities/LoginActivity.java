@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores;
+package com.grupo07.preventedstores.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.grupo07.preventedstores.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener {
 

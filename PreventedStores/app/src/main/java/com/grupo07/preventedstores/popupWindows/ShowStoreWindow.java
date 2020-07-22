@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores;
+package com.grupo07.preventedstores.popupWindows;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.objects.Store;
+import com.grupo07.preventedstores.activities.MapsActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
