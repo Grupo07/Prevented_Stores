@@ -6,13 +6,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +30,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
     private Button deleteButton;
     private MapsActivity context;
     private LatLng location;
+    private String category = "Groceries";
 
     private Store storeToEdit = null;
 
@@ -56,6 +61,9 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             setEditModeForm();
         }
 
+        Spinner categoryDropdown = (Spinner) view.findViewById(R.id.categoryDropdown);
+        setupCategoryDropdown(categoryDropdown);
+
         final Dialog dialog = builder.create();
 
 
@@ -68,15 +76,18 @@ public class StoreFormWindow extends AppCompatDialogFragment {
                     String option2Value = (options[1].isChecked()) ? "1" : "0";
                     String sanitaryOptions = option1Value + option2Value;
 
+                    String author;
                     double latitude, longitude;
                     if (inEditMode) {
                         latitude = storeToEdit.getLatitude();
                         longitude = storeToEdit.getLongitude();
+                        author = storeToEdit.getAuthor();
                     } else {
                         latitude = location.latitude;
                         longitude = location.longitude;
+                        author = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@user.com", "");
                     }
-                    Store newStore = new Store(name, "market", latitude, longitude, sanitaryOptions, "no author");
+                    Store newStore = new Store(name, category, latitude, longitude, sanitaryOptions, author);
 
                     StoreDatabase.saveStore(newStore);
 
@@ -107,7 +118,6 @@ public class StoreFormWindow extends AppCompatDialogFragment {
 
     private boolean dataIsValid() {
         String storeName = this.storeName.getText().toString();
-
         return !storeName.isEmpty();
     }
 
@@ -128,5 +138,22 @@ public class StoreFormWindow extends AppCompatDialogFragment {
 
         actionButton.setText("Update");
 
+    }
+
+    private void setupCategoryDropdown(Spinner categoryDropdown) {
+        final String[] categories = {"Groceries", "Food", "Bank", "Hardware Store", "Gas Station", "Pharmacy", "Hospital", "Hair Salon"};
+
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, categories);
+        categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoryDropdown.setAdapter(categoriesAdapter);
+
+        categoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 }

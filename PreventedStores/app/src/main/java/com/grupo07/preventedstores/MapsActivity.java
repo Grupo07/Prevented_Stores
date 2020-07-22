@@ -2,7 +2,9 @@ package com.grupo07.preventedstores;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -101,6 +104,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void centerMapOnLocation(Double latitude, Double longitude) {
         LatLng userLocation = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
+    }
+
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 
 }

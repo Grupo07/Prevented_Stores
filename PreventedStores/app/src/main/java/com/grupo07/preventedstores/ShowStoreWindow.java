@@ -47,6 +47,10 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
             }
         }
 
+        ((TextView) view.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
+
+        ((TextView) view.findViewById(R.id.category)).setText(store.getCategory());
+
         final Dialog dialog = builder.create();
 
         Button editButton = (Button) view.findViewById(R.id.editButton);
