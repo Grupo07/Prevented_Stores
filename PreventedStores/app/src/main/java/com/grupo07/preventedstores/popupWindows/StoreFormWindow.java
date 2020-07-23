@@ -150,7 +150,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
      * Changes form look and functionality to edit store mode
      */
     private void setEditModeForm() {
-        storeName.setText(storeToEdit.name);
+        storeName.setText(storeToEdit.getName());
 
         String sanitaryOptions = storeToEdit.getSanitaryOptions();
         for (int i = 0; i < options.length; i++) {

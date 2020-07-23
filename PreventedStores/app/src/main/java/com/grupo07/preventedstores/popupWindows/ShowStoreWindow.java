@@ -49,7 +49,7 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
         View windowView = layoutInflater.inflate(R.layout.show_store, null);
         dialogBuilder.setView(windowView);
 
-        ((TextView) windowView.findViewById(R.id.storeName)).setText(store.name);
+        ((TextView) windowView.findViewById(R.id.storeName)).setText(store.getName());
         ((TextView) windowView.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
         ((TextView) windowView.findViewById(R.id.category)).setText(store.getCategory());
 

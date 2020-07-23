@@ -8,7 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Store {
 
-    public String name;
+    private String name;
     private String category;
     private Double latitude;
     private Double longitude;
