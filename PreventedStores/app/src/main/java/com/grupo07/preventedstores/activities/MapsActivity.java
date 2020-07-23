@@ -22,10 +22,17 @@ import com.grupo07.preventedstores.database.StoreDatabase;
 
 import java.util.ArrayList;
 
+
+/**
+ * Map window that shows stores as markers.
+ * It allows to create, update or delete stores
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
+    // display map
     private GoogleMap map;
-    private ShowStoreWindow showStoreDialog;
+
+    // last update stores
     private ArrayList<Store> stores;
 
     @Override
@@ -50,6 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Sets up the map look and event listeners.
+     * Marker click listener and map long click listener are set up
+     */
     private void configureMap() {
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -66,17 +77,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    /**
+     * Pops up a store information window
+     * @param store store whose information is displayed in the window
+     */
     private void showStoreInfo(Store store) {
-        showStoreDialog =  new ShowStoreWindow(this);
+        ShowStoreWindow showStoreDialog = new ShowStoreWindow(this);
         showStoreDialog.setStore(store);
         showStoreDialog.show(getSupportFragmentManager(), "");
     }
 
+    /**
+     * Pops up the create store window with a given location
+     * @param latLng store location
+     */
     private void createStoreLocation(LatLng latLng) {
         StoreFormWindow dialog = new StoreFormWindow(this);
         dialog.setLocation(latLng);
         dialog.show(getSupportFragmentManager(), "");
-
     }
 
     @Override
@@ -84,10 +102,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         createStoreLocation(latLng);
     }
 
+    /**
+     * Calls the database to update the current stores
+     */
     public void updateStores() {
         StoreDatabase.getStores(this);
     }
 
+    /**
+     * Updates and displays the saved list of stores
+     * @param stores updated list of stores
+     */
     public void loadStoresMarkers(ArrayList<Store> stores) {
         this.stores = stores;
         map.clear();
@@ -95,10 +120,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMapMarker(new LatLng(store.getLatitude(), store.getLongitude()));
     }
 
+    /**
+     * Adds a marker to the map in the given location
+     * @param latLng marker location
+     */
     private void addMapMarker(LatLng latLng) {
         map.addMarker(new MarkerOptions().position(latLng));
     }
 
+    /**
+     * Finds a store in the store list by its location
+     * @param latitude store latitude
+     * @param longitude store longitude
+     * @return the found store
+     */
     private Store findStore(double latitude, double longitude) {
         for(Store store : stores)
             if(store.getLatitude() == latitude && store.getLongitude() == longitude)
@@ -106,11 +141,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return null;
     }
 
+    /**
+     * Centers the map on a given location
+     * @param latitude location latitude
+     * @param longitude location longitude
+     */
     public void centerMapOnLocation(Double latitude, Double longitude) {
         LatLng userLocation = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
     }
 
+    /**
+     * Logs out the current user and goes to the login activity
+     * @param view view widget that calls the method
+     */
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));

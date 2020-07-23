@@ -23,13 +23,24 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.grupo07.preventedstores.R;
 
+/**
+ * User login / sign up window activity.
+ * Once the user is verified leads to a MapsActivity
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener {
 
+    // username input
     private EditText usernameEdit;
+
+    // password input
     private EditText passwordEdit;
+
+    // current form mode (login or sign up)
     private String mode = "login";
 
+    // Firebase authentication tool instance
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +61,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             toMapActivity();
     }
 
+    /**
+     * Asks location permission to the user if not already granted
+     */
     private void setUserLocationPermission() {
         // ask for location permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            finish();
-        }
-    }
-
+    /**
+     * Performs the login / sign up of the user with the current input data
+     * @param view view widget that calls the method
+     */
     public void processUser(View view) {
         if (dataIsValid()) {
             String username = usernameEdit.getText().toString();
@@ -75,6 +85,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         }
     }
 
+    /**
+     * Indicates that the user input data is valid for login / sign up
+     * @return the input data validity
+     */
     private boolean dataIsValid() {
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
@@ -91,6 +105,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         return true;
     }
 
+    /**
+     * Performs the user login with the given data
+     * @param username user username
+     * @param password user password
+     */
     private void login(String username, String password) {
         Toast.makeText(this, "Login in!", Toast.LENGTH_SHORT).show();
         mAuth.signInWithEmailAndPassword(username + "@user.com", password)
@@ -106,6 +125,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                 });
     }
 
+    /**
+     * Performs the user sign up with the given data
+     * @param username user username
+     * @param password user password
+     */
     private void signup(String username, String password) {
         Toast.makeText(this, "Signing up!", Toast.LENGTH_SHORT).show();
         mAuth.createUserWithEmailAndPassword(username + "@user.com", password)
@@ -120,10 +144,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                 });
     }
 
+    /**
+     * Leads the user to the map activity
+     */
     private void toMapActivity() {
         startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 
+    /**
+     * Toggles between login and sign up mode
+     * @param view view widget that calls the method
+     */
     public void toggleMode(View view) {
         Button processUserButton = (Button) findViewById(R.id.processUserButton);
         Button toggleModeButton = (Button) view;
@@ -155,6 +186,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
             processUser(view);
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // close the application if location permission was denied
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            finish();
+        }
     }
 }
 

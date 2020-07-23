@@ -26,18 +26,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+/**
+ * Store form window to create or edit a store
+ */
 public class StoreFormWindow extends AppCompatDialogFragment {
 
-    private EditText storeName;
-    private CheckBox[] options = new CheckBox[2];
-    private Button actionButton;
-    private Button deleteButton;
+    // Parent activity used as application context for the widgets
     private MapsActivity context;
+
+    // store name input
+    private EditText storeName;
+
+    // sanitary options inputs
+    private CheckBox[] options = new CheckBox[2];
+
+    // register or update button
+    private Button actionButton;
+
+    // store location
     private LatLng location;
+
+    // store category
     private String category = "Groceries";
 
+    // store to update in edit mode
     private Store storeToEdit = null;
 
+    /**
+     * The class constructor requires an application context to be passed
+     * @param context application context
+     */
     public StoreFormWindow(MapsActivity context) {
         this.context = context;
     }
@@ -57,7 +75,9 @@ public class StoreFormWindow extends AppCompatDialogFragment {
         options[0] = (CheckBox) view.findViewById(R.id.checkBox1);
         options[1] = (CheckBox) view.findViewById(R.id.checkBox2);
         actionButton = (Button) view.findViewById(R.id.okButton);
-        deleteButton = (Button) view.findViewById(R.id.deleteButton);
+
+        Button deleteButton = (Button) view.findViewById(R.id.deleteButton);
+
 
         if(inEditMode) {
             ((TextView) view.findViewById(R.id.title)).setText("Update Store");
@@ -70,6 +90,13 @@ public class StoreFormWindow extends AppCompatDialogFragment {
 
         final Dialog dialog = builder.create();
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StoreDatabase.deleteStore(storeToEdit, context);
+                dialog.dismiss();
+            }
+        });
 
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +109,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
 
                     String author;
                     double latitude, longitude;
+
                     if (inEditMode) {
                         latitude = storeToEdit.getLatitude();
                         longitude = storeToEdit.getLongitude();
@@ -91,6 +119,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
                         longitude = location.longitude;
                         author = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@user.com", "");
                     }
+
                     Store newStore = new Store(name, category, latitude, longitude, sanitaryOptions, author);
 
                     StoreDatabase.saveStore(newStore);
@@ -103,34 +132,24 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StoreDatabase.deleteStore(storeToEdit, context);
-                dialog.dismiss();
-            }
-        });
-
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         return dialog;
     }
 
-    public void setLocation(LatLng location) {
-        this.location = location;
-    }
-
+    /**
+     * Indicates that the current store form data is valid
+     * @return form data validity
+     */
     private boolean dataIsValid() {
         String storeName = this.storeName.getText().toString();
         return !storeName.isEmpty();
     }
 
-    public void setEditMode(Store store) {
-        this.storeToEdit = store;
-    }
-
+    /**
+     * Changes form look and functionality to edit store mode
+     */
     private void setEditModeForm() {
-
         storeName.setText(storeToEdit.name);
 
         String sanitaryOptions = storeToEdit.getSanitaryOptions();
@@ -141,9 +160,12 @@ public class StoreFormWindow extends AppCompatDialogFragment {
         }
 
         actionButton.setText("Update");
-
     }
 
+    /**
+     * Set ups the store category dropdown
+     * @param categoryDropdown spinner to display the dropdown
+     */
     private void setupCategoryDropdown(Spinner categoryDropdown) {
         final String[] categories = {"Groceries", "Food", "Bank", "Hardware Store", "Gas Station", "Pharmacy", "Hospital", "Hair Salon"};
 
@@ -160,4 +182,13 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
+    public void setLocation(LatLng location) {
+        this.location = location;
+    }
+
+    public void setStoreToEdit(Store store) {
+        this.storeToEdit = store;
+    }
+
 }

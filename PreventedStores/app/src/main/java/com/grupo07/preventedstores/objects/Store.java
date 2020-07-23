@@ -2,6 +2,9 @@ package com.grupo07.preventedstores.objects;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+/**
+ * Representation of a store with sanitary measures emphasis
+ */
 @IgnoreExtraProperties
 public class Store {
 

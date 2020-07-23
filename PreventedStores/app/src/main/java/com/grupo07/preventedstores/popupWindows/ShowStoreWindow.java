@@ -18,12 +18,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+/**
+ * Popup windows that shows the sanitary information of a store.
+ * Can lead to an edit store option
+ */
 public class ShowStoreWindow extends AppCompatDialogFragment {
 
-
+    // Parent activity used as application context for the widgets
     private MapsActivity context;
+
+    // Store whose information is shown
     private Store store;
 
+    /**
+     * The class constructor requires an application context to be passed
+     * @param context application context
+     */
     public ShowStoreWindow(MapsActivity context) {
         this.context = context;
         context.updateStores();
@@ -32,45 +42,63 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.show_store, null);
-        builder.setView(view);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
 
-        TextView storeName = (TextView) view.findViewById(R.id.storeName);
-        TextView options[] = new TextView[2];
-        options[0] = (TextView)view.findViewById(R.id.option1);
-        options[1] = (TextView) view.findViewById(R.id.option2);
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
-        storeName.setText(store.name);
+        View windowView = layoutInflater.inflate(R.layout.show_store, null);
+        dialogBuilder.setView(windowView);
+
+        ((TextView) windowView.findViewById(R.id.storeName)).setText(store.name);
+        ((TextView) windowView.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
+        ((TextView) windowView.findViewById(R.id.category)).setText(store.getCategory());
+
+        TextView optionViews[] = new TextView[2];
+        optionViews[0] = (TextView)windowView.findViewById(R.id.option1);
+        optionViews[1] = (TextView) windowView.findViewById(R.id.option2);
         String sanitaryOptions = store.getSanitaryOptions();
-        for (int i = 0; i < options.length; i++) {
-            if (sanitaryOptions.charAt(i) == '0') {
-                options[i].setText(options[i].getText().toString().replace("✓", "X"));
-                options[i].setTextColor(Color.RED);
-            }
-        }
+        displaySanitaryOptions(optionViews, sanitaryOptions);
 
-        ((TextView) view.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
+        final Dialog dialog = dialogBuilder.create();
 
-        ((TextView) view.findViewById(R.id.category)).setText(store.getCategory());
+        Button editButton = (Button) windowView.findViewById(R.id.editButton);
+        setupEditStoreButton(dialog, editButton);
 
-        final Dialog dialog = builder.create();
-
-        Button editButton = (Button) view.findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                StoreFormWindow formDialog = new StoreFormWindow(context);
-                formDialog.setEditMode(store);
-                formDialog.show(context.getSupportFragmentManager(), "");
-            }
-        });
-
+        // to achieve rounded corners
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return dialog;
+    }
+
+    /**
+     * Display the given sanitary options in text views
+     * @param optionViews text views to display the sanitary options
+     * @param sanitaryOptions sanitary options as a string
+     */
+    private void displaySanitaryOptions(TextView optionViews[], String sanitaryOptions) {
+        for (int i = 0; i < optionViews.length; i++) {
+            if (sanitaryOptions.charAt(i) == '0') {
+                optionViews[i].setText(optionViews[i].getText().toString().replace("✓", "X"));
+                optionViews[i].setTextColor(Color.RED);
+            }
+        }
+    }
+
+    /**
+     * Sets up the edit button to open the store in an edit window
+     * @param window current window shown
+     * @param editButton button linked to the edit store option
+     */
+    private void setupEditStoreButton(final Dialog window, Button editButton) {
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                StoreFormWindow formDialog = new StoreFormWindow(context);
+                formDialog.setStoreToEdit(store);
+                formDialog.show(context.getSupportFragmentManager(), "");
+            }
+        });
     }
 
     public void setStore(Store store) {
