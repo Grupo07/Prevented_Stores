@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.objects.SanitaryMeasure;
+import com.grupo07.preventedstores.objects.SanitaryMeasuresFactory;
 import com.grupo07.preventedstores.objects.Store;
 import com.grupo07.preventedstores.activities.MapsActivity;
 
@@ -53,9 +55,18 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
         ((TextView) windowView.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
         ((TextView) windowView.findViewById(R.id.category)).setText(store.getCategory());
 
-        TextView optionViews[] = new TextView[2];
+        TextView optionViews[] = new TextView[5];
         optionViews[0] = (TextView)windowView.findViewById(R.id.option1);
         optionViews[1] = (TextView) windowView.findViewById(R.id.option2);
+        optionViews[2] = (TextView) windowView.findViewById(R.id.option3);
+        optionViews[3] = (TextView) windowView.findViewById(R.id.option4);
+        optionViews[4] = (TextView) windowView.findViewById(R.id.option5);
+
+        // unique category checkbox options
+        SanitaryMeasure measures = SanitaryMeasuresFactory.makeMeasures(store.getCategory());
+        optionViews[optionViews.length-2].setText("✓ " + measures.getMeasures()[0]);
+        optionViews[optionViews.length-1].setText("✓ " + measures.getMeasures()[1]);
+
         String sanitaryOptions = store.getSanitaryOptions();
         displaySanitaryOptions(optionViews, sanitaryOptions);
 

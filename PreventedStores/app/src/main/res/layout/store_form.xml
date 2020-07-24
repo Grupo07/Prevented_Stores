@@ -51,6 +51,27 @@
         android:layout_marginHorizontal="20dp"
         android:text="All employees use face masks" />
 
+    <CheckBox
+        android:id="@+id/checkBox3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Contactless payment available" />
+
+    <CheckBox
+        android:id="@+id/categoryCheckBox1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Category option 1" />
+
+    <CheckBox
+        android:id="@+id/categoryCheckBox2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Category option 2" />
+
     <Button
         android:id="@+id/okButton"
         android:layout_width="match_parent"

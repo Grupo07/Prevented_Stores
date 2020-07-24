@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -116,16 +117,52 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void loadStoresMarkers(ArrayList<Store> stores) {
         this.stores = stores;
         map.clear();
-        for(Store store : stores)
-            addMapMarker(new LatLng(store.getLatitude(), store.getLongitude()));
+        for(Store store : stores) {
+            LatLng location = new LatLng(store.getLatitude(), store.getLongitude());
+            float hueColor = getStoreHueColor(store);
+            addMapMarker(location, hueColor);
+        }
+    }
+
+    /**
+     * Generates a store marker color based on the sanitary options fulfilled
+     * @param store store to get the color
+     * @return color as a hue value
+     */
+    private float getStoreHueColor(Store store) {
+        String sanitaryOptions = store.getSanitaryOptions();
+        int totalOptions = sanitaryOptions.length();
+
+        int fulfilledOptions = 0;
+        for (int i = 0; i < totalOptions; i++)
+            if (sanitaryOptions.charAt(i) == '1')
+                fulfilledOptions += 1;
+
+        int rating = (int) (((float) fulfilledOptions / totalOptions) * 100);
+
+        float storeColor;
+        if (rating == 100) {
+            storeColor = 115;
+        } else if (rating > 40) {
+            storeColor = 53f;
+        } else if (rating > 0) {
+            storeColor = 35f;
+        } else {
+            storeColor = 15f;
+        }
+
+        return storeColor;
     }
 
     /**
      * Adds a marker to the map in the given location
      * @param latLng marker location
+     * @param hueColor marker hue color
      */
-    private void addMapMarker(LatLng latLng) {
-        map.addMarker(new MarkerOptions().position(latLng));
+    private void addMapMarker(LatLng latLng, float hueColor) {
+        map.addMarker(new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(hueColor)));
     }
 
     /**

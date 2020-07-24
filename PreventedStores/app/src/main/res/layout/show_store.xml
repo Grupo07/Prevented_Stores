@@ -56,6 +56,30 @@
         android:textColor="#4CAF50"
         android:textSize="14sp" />
 
+    <TextView
+        android:id="@+id/option3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="✓ Contactless payment available"
+        android:textColor="#4CAF50" />
+
+    <TextView
+        android:id="@+id/option4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="✓ Category Option 1"
+        android:textColor="#4CAF50" />
+
+    <TextView
+        android:id="@+id/option5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="✓ Category Option 2"
+        android:textColor="#4CAF50" />
+
     <Button
         android:id="@+id/editButton"
         android:layout_width="match_parent"

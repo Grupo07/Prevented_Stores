@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.objects.SanitaryMeasure;
+import com.grupo07.preventedstores.objects.SanitaryMeasuresFactory;
 import com.grupo07.preventedstores.objects.Store;
 import com.grupo07.preventedstores.activities.MapsActivity;
 import com.grupo07.preventedstores.database.StoreDatabase;
@@ -38,7 +40,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
     private EditText storeName;
 
     // sanitary options inputs
-    private CheckBox[] options = new CheckBox[2];
+    private CheckBox[] options = new CheckBox[5];
 
     // register or update button
     private Button actionButton;
@@ -47,10 +49,16 @@ public class StoreFormWindow extends AppCompatDialogFragment {
     private LatLng location;
 
     // store category
-    private String category = "Groceries";
+    private String category = "grocery";
 
     // store to update in edit mode
     private Store storeToEdit = null;
+
+    // store categories
+    private final String[] categories = {"grocery", "food", "shop", "services"};
+
+    // store category dropdown
+    private Spinner categoryDropdown;
 
     /**
      * The class constructor requires an application context to be passed
@@ -63,7 +71,6 @@ public class StoreFormWindow extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         final boolean inEditMode = (storeToEdit != null);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -74,10 +81,12 @@ public class StoreFormWindow extends AppCompatDialogFragment {
         storeName = (EditText) view.findViewById(R.id.storeNameEditText);
         options[0] = (CheckBox) view.findViewById(R.id.checkBox1);
         options[1] = (CheckBox) view.findViewById(R.id.checkBox2);
+        options[2] = (CheckBox) view.findViewById(R.id.checkBox3);
+        options[3] = (CheckBox) view.findViewById(R.id.categoryCheckBox1);
+        options[4] = (CheckBox) view.findViewById(R.id.categoryCheckBox2);
         actionButton = (Button) view.findViewById(R.id.okButton);
-
+        categoryDropdown = (Spinner) view.findViewById(R.id.categoryDropdown);
         Button deleteButton = (Button) view.findViewById(R.id.deleteButton);
-
 
         if(inEditMode) {
             ((TextView) view.findViewById(R.id.title)).setText("Update Store");
@@ -85,8 +94,8 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             setEditModeForm();
         }
 
-        Spinner categoryDropdown = (Spinner) view.findViewById(R.id.categoryDropdown);
-        setupCategoryDropdown(categoryDropdown);
+        updateCategoryOptions();
+        setupCategoryDropdown();
 
         final Dialog dialog = builder.create();
 
@@ -103,9 +112,9 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if (dataIsValid()) {
                     String name = storeName.getText().toString();
-                    String option1Value = (options[0].isChecked()) ? "1" : "0";
-                    String option2Value = (options[1].isChecked()) ? "1" : "0";
-                    String sanitaryOptions = option1Value + option2Value;
+                    String sanitaryOptions = "";
+                    for(CheckBox option: options)
+                        sanitaryOptions += (option.isChecked()) ? "1" : "0";
 
                     String author;
                     double latitude, longitude;
@@ -132,6 +141,7 @@ public class StoreFormWindow extends AppCompatDialogFragment {
             }
         });
 
+        // transparent dialog background to achieve round corners
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         return dialog;
@@ -150,37 +160,52 @@ public class StoreFormWindow extends AppCompatDialogFragment {
      * Changes form look and functionality to edit store mode
      */
     private void setEditModeForm() {
-        storeName.setText(storeToEdit.getName());
+        this.storeName.setText(storeToEdit.getName());
 
+        this.category = storeToEdit.getCategory();
+
+        // restore dropdown category
+        for (int i = 0; i < categories.length; i++)
+            if (categories[i] == category)
+                categoryDropdown.setSelection(i);
+
+        // restore options checks
         String sanitaryOptions = storeToEdit.getSanitaryOptions();
-        for (int i = 0; i < options.length; i++) {
-            if (sanitaryOptions.charAt(i) == '1') {
+        for (int i = 0; i < options.length; i++)
+            if (sanitaryOptions.charAt(i) == '1')
                 options[i].setChecked(true);
-            }
-        }
 
-        actionButton.setText("Update");
+        this.actionButton.setText("Update");
     }
 
     /**
      * Set ups the store category dropdown
-     * @param categoryDropdown spinner to display the dropdown
      */
-    private void setupCategoryDropdown(Spinner categoryDropdown) {
-        final String[] categories = {"Groceries", "Food", "Bank", "Hardware Store", "Gas Station", "Pharmacy", "Hospital", "Hair Salon"};
-
+    private void setupCategoryDropdown() {
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, categories);
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categoryDropdown.setAdapter(categoriesAdapter);
-
-        categoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        this.categoryDropdown.setAdapter(categoriesAdapter);
+        this.categoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // update selected category
                 category = (String) parent.getItemAtPosition(position);
+
+                updateCategoryOptions();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
+
+    /**
+     * Updates the available options with the current store category
+     */
+    private void updateCategoryOptions() {
+        SanitaryMeasure measures = SanitaryMeasuresFactory.makeMeasures(category);
+        options[options.length-2].setText(measures.getMeasures()[0]);
+        options[options.length-1].setText(measures.getMeasures()[1]);
     }
 
     public void setLocation(LatLng location) {
