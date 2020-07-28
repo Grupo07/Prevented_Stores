@@ -11,7 +11,8 @@ public class ServicesMeasure implements SanitaryMeasure {
      */
     @Override
     public String[] getMeasures() {
-        String[] measures = {"services option 1", "services option 2"};
+        String[] measures = {"Physical barrier between employee and customer",
+                "Interpolated wait spaces reserved for the virus"};
         return measures;
     }
 }

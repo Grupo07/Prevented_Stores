@@ -11,7 +11,8 @@ public class FoodMeasure implements SanitaryMeasure {
      */
     @Override
     public String[] getMeasures() {
-        String[] measures = {"food option 1", "food option 2"};
+        String[] measures = {"Interpolated tables reserved for viruses",
+                "Closing of self-service areas"};
         return measures;
     }
 }

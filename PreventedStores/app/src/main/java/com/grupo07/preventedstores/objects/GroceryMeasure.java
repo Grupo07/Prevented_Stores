@@ -11,7 +11,8 @@ public class GroceryMeasure implements SanitaryMeasure {
      */
     @Override
     public String[] getMeasures() {
-        String[] measures = {"grocery option 1", "grocery option 2"};
+        String[] measures = {"Touchless payment promotion",
+                "Physical barrier between cashier and customer"};
         return measures;
     }
 }

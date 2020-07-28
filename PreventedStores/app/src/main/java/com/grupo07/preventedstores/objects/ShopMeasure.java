@@ -11,7 +11,8 @@ public class ShopMeasure implements SanitaryMeasure {
      */
     @Override
     public String[] getMeasures() {
-        String[] measures = {"shop option 1", "shop option 2"};
+        String[] measures = {"Physical barrier between cashier and customer",
+                "Spaces for self-cleaning shopping carts"};
         return measures;
     }
 }
