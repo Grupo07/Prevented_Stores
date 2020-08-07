@@ -12,10 +12,10 @@
         android:layout_marginTop="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="Store Name"
+        android:text="Store Name ⬤"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
@@ -25,7 +25,8 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:text="Added by author"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/category"
@@ -34,8 +35,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:text="groceries"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
@@ -43,51 +43,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:text="✓ Face mask required to enter"
-        android:textColor="#4CAF50"
-        android:textSize="14sp" />
+        android:textColor="#53C553"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/option2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:text="✓ All employees use face masks"
-        android:textColor="#4CAF50"
-        android:textSize="14sp" />
+        android:textColor="#53C553"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/option3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:text="✓ Contactless payment available"
-        android:textColor="#4CAF50" />
+        android:textColor="#53C553"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/option4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:text="✓ Category Option 1"
-        android:textColor="#4CAF50" />
+        android:textColor="#53C553"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/option5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:text="✓ Category Option 2"
-        android:textColor="#4CAF50" />
+        android:textColor="#53C553"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/editButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="300dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#F38D6D"
+        android:background="#9C9492"
         android:text="Edit"
         android:textColor="#FFFFFF" />
 

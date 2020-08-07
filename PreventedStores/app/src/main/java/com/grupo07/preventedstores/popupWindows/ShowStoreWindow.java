@@ -16,6 +16,8 @@ import com.grupo07.preventedstores.objects.SanitaryMeasuresFactory;
 import com.grupo07.preventedstores.objects.Store;
 import com.grupo07.preventedstores.activities.MapsActivity;
 
+import org.w3c.dom.Text;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -51,7 +53,8 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
         View windowView = layoutInflater.inflate(R.layout.show_store, null);
         dialogBuilder.setView(windowView);
 
-        ((TextView) windowView.findViewById(R.id.storeName)).setText(store.getName());
+        TextView storeNameView = (TextView) windowView.findViewById(R.id.storeName);
+        storeNameView.setText(store.getName() + " ⬤");
         ((TextView) windowView.findViewById(R.id.author)).setText("Added by " + store.getAuthor());
         ((TextView) windowView.findViewById(R.id.category)).setText(store.getCategory());
 
@@ -69,6 +72,8 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
 
         String sanitaryOptions = store.getSanitaryOptions();
         displaySanitaryOptions(optionViews, sanitaryOptions);
+
+        setIndicatorColor(storeNameView, sanitaryOptions);
 
         final Dialog dialog = dialogBuilder.create();
 
@@ -90,7 +95,7 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
         for (int i = 0; i < optionViews.length; i++) {
             if (sanitaryOptions.charAt(i) == '0') {
                 optionViews[i].setText(optionViews[i].getText().toString().replace("✓", "X"));
-                optionViews[i].setTextColor(Color.RED);
+                optionViews[i].setTextColor(Color.parseColor("#ff3333"));
             }
         }
     }
@@ -110,6 +115,36 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
                 formDialog.show(context.getSupportFragmentManager(), "");
             }
         });
+    }
+
+    /**
+     * Sets the color of the rating circle indicator
+     *
+     * @param indicatorView text view that displays the indicator
+     * @param sanitaryOptions sanitary options used to get the indicator color
+     */
+    private void setIndicatorColor(TextView indicatorView, String sanitaryOptions) {
+        int totalOptions = sanitaryOptions.length();
+
+        int fulfilledOptions = 0;
+        for (int i = 0; i < totalOptions; i++)
+            if (sanitaryOptions.charAt(i) == '1')
+                fulfilledOptions += 1;
+
+        int rating = (int) (((float) fulfilledOptions / totalOptions) * 100);
+
+        int indicatorColor;
+        if (rating == 100) {
+            indicatorColor = Color.parseColor("#53c553");
+        } else if (rating > 40) {
+            indicatorColor = Color.parseColor("#cfcf07");
+        } else if (rating > 0) {
+            indicatorColor = Color.parseColor("#ff944d");
+        } else {
+            indicatorColor = Color.parseColor("#ff3333");
+        }
+
+        indicatorView.setTextColor(indicatorColor);
     }
 
     public void setStore(Store store) {
