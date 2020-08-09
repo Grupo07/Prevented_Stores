@@ -6,8 +6,14 @@ import java.util.Comparator;
 
 public class FilterByName implements Filter {
     @Override
-    public ArrayList<Store> filter(ArrayList<Store> list, String id) {
-        return null;
+    public ArrayList<Store> filter(ArrayList<Store> list, String name) {
+        ArrayList<Store> result = new ArrayList<Store>();
+        for(Store store:list){
+            if(store.getName().contains(name)){
+                result.add(store);
+            }
+        }
+        return result;
     }
 
     @Override
