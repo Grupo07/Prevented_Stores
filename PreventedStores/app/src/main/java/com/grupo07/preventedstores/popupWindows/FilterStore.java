@@ -25,6 +25,9 @@ import com.grupo07.preventedstores.objects.Store;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FilterStore is a Search fragment to filter by name or category
+ */
 public class FilterStore extends AppCompatDialogFragment {
 
 
@@ -44,6 +47,11 @@ public class FilterStore extends AppCompatDialogFragment {
     public FilterStore() {
     }
 
+    /**
+     * Constructor
+     * @param mapsActivity context for toasts and show stores
+     * @param stores list of stores to filter and search
+     */
     public FilterStore(MapsActivity mapsActivity, ArrayList<Store> stores) {
         this.mapsActivity = mapsActivity;
         this.stores = stores;
@@ -102,8 +110,10 @@ public class FilterStore extends AppCompatDialogFragment {
                     Filter filter = new FilterByCategory();
                     filteredStores = filter.filter(stores,category);
                     checkEmpy();
-                    setAdapter();
+                }else{
+                    filteredStores = stores;
                 }
+                setAdapter();
             }
         });
         sortName = (Button) v.findViewById(R.id.nameSB);
@@ -127,11 +137,19 @@ public class FilterStore extends AppCompatDialogFragment {
         return v;
     }
 
+    /**
+     * Update ListView
+     */
     private void setAdapter(){
         ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(mapsActivity,android.R.layout.simple_list_item_1,getNameList());
         storesListView.setAdapter(namesAdapter);
     }
 
+    /**
+     * Search store by selected name in ListView
+     * @param name name of store
+     * @return
+     */
     private Store getStore(String name) {
         for(Store store:filteredStores){
             if(store.getName().equalsIgnoreCase(name)){
@@ -141,6 +159,10 @@ public class FilterStore extends AppCompatDialogFragment {
         return null;
     }
 
+    /**
+     * Get names of stores
+     * @return Arraylist of names of stores
+     */
     private ArrayList<String> getNameList() {
         ArrayList<String> result = new ArrayList<String>();
         if(filteredStores.size()<1){
@@ -152,6 +174,9 @@ public class FilterStore extends AppCompatDialogFragment {
         return result;
     }
 
+    /**
+     * if filtered stores list is empy, make a Toast and reset filtered stores
+     */
     private void checkEmpy(){
         if(filteredStores.size() < 1){
             filteredStores = stores;

@@ -89,6 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         showStoreDialog.show(getSupportFragmentManager(), "");
     }
 
+    /**
+     * Pops up a Search fragment
+     * @param view fragment search
+     */
     public void showFilterPopup(View view){
         FilterStore filterStore = new FilterStore(this,stores);
         filterStore.show(getSupportFragmentManager(),"");
