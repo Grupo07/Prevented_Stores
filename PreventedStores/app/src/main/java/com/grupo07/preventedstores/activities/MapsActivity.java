@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.grupo07.preventedstores.R;
+import com.grupo07.preventedstores.popupWindows.FilterStore;
 import com.grupo07.preventedstores.popupWindows.ShowStoreWindow;
 import com.grupo07.preventedstores.objects.Store;
 import com.grupo07.preventedstores.popupWindows.StoreFormWindow;
@@ -86,6 +87,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ShowStoreWindow showStoreDialog = new ShowStoreWindow(this);
         showStoreDialog.setStore(store);
         showStoreDialog.show(getSupportFragmentManager(), "");
+    }
+
+    public void showFilterPopup(View view){
+        FilterStore filterStore = new FilterStore(this,stores);
+        filterStore.show(getSupportFragmentManager(),"");
     }
 
     /**
