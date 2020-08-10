@@ -6,10 +6,10 @@ import java.util.Comparator;
 
 public class FilterByCategory implements Filter {
     @Override
-    public ArrayList<Store> filter(ArrayList<Store> list, String category) {
+    public ArrayList<Store> filter(ArrayList<Store> list, String id) {
         ArrayList<Store> result = new ArrayList<Store>();
         for(Store store:list){
-            if(store.getCategory().contains(category)){
+            if(store.getCategory().contains(id)){
                 result.add(store);
             }
         }

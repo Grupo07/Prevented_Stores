@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">PreventedStores</string>
     <string name="title_activity_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="titleFilter">Search</string>
+    <string name="name">Name</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort by:</string>
+    <string name="category">Category</string>
 </resources>
