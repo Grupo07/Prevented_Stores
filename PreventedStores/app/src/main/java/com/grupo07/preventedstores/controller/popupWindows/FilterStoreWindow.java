@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.popupWindows;
+package com.grupo07.preventedstores.controller.popupWindows;
 
 import android.os.Bundle;
 
@@ -16,21 +16,20 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.grupo07.preventedstores.R;
-import com.grupo07.preventedstores.activities.MapsActivity;
-import com.grupo07.preventedstores.objects.Filter;
-import com.grupo07.preventedstores.objects.FilterByCategory;
-import com.grupo07.preventedstores.objects.FilterByName;
-import com.grupo07.preventedstores.objects.Store;
+import com.grupo07.preventedstores.view.activities.MapsActivity;
+import com.grupo07.preventedstores.model.filterStrategy.Filter;
+import com.grupo07.preventedstores.model.filterStrategy.FilterByCategory;
+import com.grupo07.preventedstores.model.filterStrategy.FilterByName;
+import com.grupo07.preventedstores.model.database.Store;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * FilterStore is a Search fragment to filter by name or category
  */
-public class FilterStore extends AppCompatDialogFragment {
+public class FilterStoreWindow extends AppCompatDialogFragment {
 
-
+    private final AppCompatDialogFragment dialog = this;
     private MapsActivity mapsActivity;
     private ArrayList<Store> stores;
     private ArrayList<Store> filteredStores;
@@ -39,12 +38,12 @@ public class FilterStore extends AppCompatDialogFragment {
     private Spinner categoryDropdown;
     private String category= "all";
     private EditText name;
-    private Button filterCategory;
     private Button searchButton;
     private Button sortName;
     private Button sortCategory;
 
-    public FilterStore() {
+    public FilterStoreWindow() {
+
     }
 
     /**
@@ -52,7 +51,7 @@ public class FilterStore extends AppCompatDialogFragment {
      * @param mapsActivity context for toasts and show stores
      * @param stores list of stores to filter and search
      */
-    public FilterStore(MapsActivity mapsActivity, ArrayList<Store> stores) {
+    public FilterStoreWindow(MapsActivity mapsActivity, ArrayList<Store> stores) {
         this.mapsActivity = mapsActivity;
         this.stores = stores;
         filteredStores = stores;
@@ -73,8 +72,11 @@ public class FilterStore extends AppCompatDialogFragment {
         storesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+                Store clickedStore = getStore(parent.getItemAtPosition(position).toString());
+                mapsActivity.centerMapOnLocation(clickedStore.getLatitude(), clickedStore.getLongitude());
                 ShowStoreWindow showStoreDialog = new ShowStoreWindow(mapsActivity);
-                showStoreDialog.setStore(getStore(parent.getItemAtPosition(position).toString()));
+                showStoreDialog.setStore(clickedStore);
                 showStoreDialog.show(mapsActivity.getSupportFragmentManager(), "");
             }
         });
@@ -86,11 +88,21 @@ public class FilterStore extends AppCompatDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 category = (String) parent.getItemAtPosition(position);
+
+                if(!category.contains("all")){
+                    Filter filter = new FilterByCategory();
+                    filteredStores = filter.filter(stores,category);
+                    checkEmpy();
+                }else{
+                    filteredStores = stores;
+                }
+                setAdapter();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         name = (EditText) v.findViewById(R.id.nameET);
         searchButton = (Button) v.findViewById(R.id.SearchB);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -102,20 +114,7 @@ public class FilterStore extends AppCompatDialogFragment {
                 setAdapter();
             }
         });
-        filterCategory = (Button) v.findViewById(R.id.FilterB);
-        filterCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!category.contains("all")){
-                    Filter filter = new FilterByCategory();
-                    filteredStores = filter.filter(stores,category);
-                    checkEmpy();
-                }else{
-                    filteredStores = stores;
-                }
-                setAdapter();
-            }
-        });
+
         sortName = (Button) v.findViewById(R.id.nameSB);
         sortName.setOnClickListener(new View.OnClickListener() {
             @Override

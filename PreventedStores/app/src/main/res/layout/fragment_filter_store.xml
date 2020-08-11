@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:textAlignment="center"
-    tools:context=".popupWindows.FilterStore">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".controller.popupWindows.FilterStoreWindow"
+    android:background="@drawable/rounded_square_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +24,8 @@
             android:text="@string/titleFilter"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,18 +59,10 @@
 
             <Spinner
                 android:id="@+id/CategorySpinner"
-                android:layout_width="264dp"
+                android:layout_width="373dp"
                 android:layout_height="42dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/FilterB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/filter"
-                android:textColor="#FFFFFF" />
+                android:background="#F5F5F5" />
 
 
         </LinearLayout>
@@ -112,7 +104,7 @@
             android:id="@+id/StoresListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp" />
+            android:layout_marginVertical="20dp" />
 
     </LinearLayout>
 

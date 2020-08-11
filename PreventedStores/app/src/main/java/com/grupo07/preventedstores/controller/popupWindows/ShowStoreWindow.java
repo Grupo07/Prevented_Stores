@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.popupWindows;
+package com.grupo07.preventedstores.controller.popupWindows;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,12 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.grupo07.preventedstores.R;
-import com.grupo07.preventedstores.objects.SanitaryMeasure;
-import com.grupo07.preventedstores.objects.SanitaryMeasuresFactory;
-import com.grupo07.preventedstores.objects.Store;
-import com.grupo07.preventedstores.activities.MapsActivity;
-
-import org.w3c.dom.Text;
+import com.grupo07.preventedstores.model.measuresFactory.SanitaryMeasure;
+import com.grupo07.preventedstores.model.measuresFactory.SanitaryMeasuresFactory;
+import com.grupo07.preventedstores.model.database.Store;
+import com.grupo07.preventedstores.view.activities.MapsActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,7 +93,7 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
         for (int i = 0; i < optionViews.length; i++) {
             if (sanitaryOptions.charAt(i) == '0') {
                 optionViews[i].setText(optionViews[i].getText().toString().replace("✓", "X"));
-                optionViews[i].setTextColor(Color.parseColor("#ff3333"));
+                optionViews[i].setTextColor(Color.parseColor("#e84a5f"));
             }
         }
     }
@@ -135,13 +133,13 @@ public class ShowStoreWindow extends AppCompatDialogFragment {
 
         int indicatorColor;
         if (rating == 100) {
-            indicatorColor = Color.parseColor("#53c553");
+            indicatorColor = Color.parseColor("#62d2a2");
         } else if (rating > 40) {
-            indicatorColor = Color.parseColor("#cfcf07");
+            indicatorColor = Color.parseColor("#ffc93c");
         } else if (rating > 0) {
-            indicatorColor = Color.parseColor("#ff944d");
+            indicatorColor = Color.parseColor("#ff7e67");
         } else {
-            indicatorColor = Color.parseColor("#ff3333");
+            indicatorColor = Color.parseColor("#e84a5f");
         }
 
         indicatorView.setTextColor(indicatorColor);

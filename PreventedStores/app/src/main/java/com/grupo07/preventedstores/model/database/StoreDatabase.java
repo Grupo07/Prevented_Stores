@@ -1,12 +1,11 @@
-package com.grupo07.preventedstores.database;
+package com.grupo07.preventedstores.model.database;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.grupo07.preventedstores.activities.MapsActivity;
-import com.grupo07.preventedstores.objects.Store;
+import com.grupo07.preventedstores.view.activities.MapsActivity;
 
 import java.util.ArrayList;
 import androidx.annotation.NonNull;

@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.activities;
+package com.grupo07.preventedstores.view.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

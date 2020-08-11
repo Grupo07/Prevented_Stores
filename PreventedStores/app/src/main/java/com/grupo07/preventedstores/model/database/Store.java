@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.objects;
+package com.grupo07.preventedstores.model.database;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

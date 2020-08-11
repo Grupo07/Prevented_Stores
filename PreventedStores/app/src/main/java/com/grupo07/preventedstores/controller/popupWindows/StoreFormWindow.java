@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.popupWindows;
+package com.grupo07.preventedstores.controller.popupWindows;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,11 +18,11 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.grupo07.preventedstores.R;
-import com.grupo07.preventedstores.objects.SanitaryMeasure;
-import com.grupo07.preventedstores.objects.SanitaryMeasuresFactory;
-import com.grupo07.preventedstores.objects.Store;
-import com.grupo07.preventedstores.activities.MapsActivity;
-import com.grupo07.preventedstores.database.StoreDatabase;
+import com.grupo07.preventedstores.view.activities.MapsActivity;
+import com.grupo07.preventedstores.model.database.StoreDatabase;
+import com.grupo07.preventedstores.model.measuresFactory.SanitaryMeasure;
+import com.grupo07.preventedstores.model.measuresFactory.SanitaryMeasuresFactory;
+import com.grupo07.preventedstores.model.database.Store;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

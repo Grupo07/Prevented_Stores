@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.objects;
+package com.grupo07.preventedstores.model.measuresFactory;
 
 /**
  * Sanitary measure of a food store

@@ -1,11 +1,13 @@
-package com.grupo07.preventedstores.activities;
+package com.grupo07.preventedstores.view.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,11 +18,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.grupo07.preventedstores.R;
-import com.grupo07.preventedstores.popupWindows.FilterStore;
-import com.grupo07.preventedstores.popupWindows.ShowStoreWindow;
-import com.grupo07.preventedstores.objects.Store;
-import com.grupo07.preventedstores.popupWindows.StoreFormWindow;
-import com.grupo07.preventedstores.database.StoreDatabase;
+import com.grupo07.preventedstores.controller.popupWindows.FilterStoreWindow;
+import com.grupo07.preventedstores.controller.popupWindows.ShowStoreWindow;
+import com.grupo07.preventedstores.model.database.Store;
+import com.grupo07.preventedstores.controller.popupWindows.StoreFormWindow;
+import com.grupo07.preventedstores.model.database.StoreDatabase;
 
 import java.util.ArrayList;
 
@@ -94,8 +96,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param view fragment search
      */
     public void showFilterPopup(View view){
-        FilterStore filterStore = new FilterStore(this,stores);
-        filterStore.show(getSupportFragmentManager(),"");
+        FilterStoreWindow filterStoreWindow = new FilterStoreWindow(this,stores);
+        filterStoreWindow.show(getSupportFragmentManager(),"");
     }
 
     /**
@@ -152,13 +154,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         float storeColor;
         if (rating == 100) {
-            storeColor = 115;
+            storeColor = 135f;
         } else if (rating > 40) {
-            storeColor = 53f;
+            storeColor = 53;
         } else if (rating > 0) {
-            storeColor = 35f;
+            storeColor = 36f;
         } else {
-            storeColor = 15f;
+            storeColor = 20f;
         }
 
         return storeColor;
@@ -195,7 +197,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public void centerMapOnLocation(Double latitude, Double longitude) {
         LatLng userLocation = new LatLng(latitude, longitude);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(userLocation, 25);
+        map.animateCamera(location);
     }
 
     /**
@@ -205,6 +208,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+    }
+
+    /**
+     * Show the user instructions about the app functionality
+     * @param view view widget that calls the method
+     */
+    public void showInstructions(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Instructions")
+                .setMessage("Hold tap on the map to add a store\nTap on a marker to show the store")
+                .setPositiveButton("Ok", null)
+                .show();
     }
 
 }

@@ -1,4 +1,6 @@
-package com.grupo07.preventedstores.objects;
+package com.grupo07.preventedstores.model.filterStrategy;
+
+import com.grupo07.preventedstores.model.database.Store;
 
 import java.util.ArrayList;
 import java.util.Collections;

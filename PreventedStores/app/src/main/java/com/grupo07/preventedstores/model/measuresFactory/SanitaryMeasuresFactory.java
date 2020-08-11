@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.objects;
+package com.grupo07.preventedstores.model.measuresFactory;
 
 /**
  * Creates sanitary measures of a set of store categories

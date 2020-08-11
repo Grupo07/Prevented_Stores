@@ -1,4 +1,4 @@
-package com.grupo07.preventedstores.database;
+package com.grupo07.preventedstores.model.database;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

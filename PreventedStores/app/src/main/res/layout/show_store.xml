@@ -14,7 +14,7 @@
         android:paddingBottom="10dp"
         android:text="Store Name ⬤"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#62d2a2"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:text="✓ Face mask required to enter"
-        android:textColor="#53C553"
+        android:textColor="#62d2a2"
         android:textSize="16sp" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:text="✓ All employees use face masks"
-        android:textColor="#53C553"
+        android:textColor="#62d2a2"
         android:textSize="16sp" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:text="✓ Contactless payment available"
-        android:textColor="#53C553"
+        android:textColor="#62d2a2"
         android:textSize="16sp" />
 
     <TextView
@@ -75,7 +75,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:text="✓ Category Option 1"
-        android:textColor="#53C553"
+        android:textColor="#62d2a2"
         android:textSize="16sp" />
 
     <TextView
@@ -85,7 +85,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:text="✓ Category Option 2"
-        android:textColor="#53C553"
+        android:textColor="#62d2a2"
         android:textSize="16sp" />
 
     <Button
