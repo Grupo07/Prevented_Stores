@@ -7,6 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class FilterByName implements Filter {
+    /**
+     * filter a list of stores by category
+     * @param list arraylist of stores to get filtered
+     * @param id name of category
+     * @return arraylist of stores filtered
+     */
     @Override
     public ArrayList<Store> filter(ArrayList<Store> list, String id) {
         ArrayList<Store> result = new ArrayList<Store>();
@@ -18,6 +24,11 @@ public class FilterByName implements Filter {
         return result;
     }
 
+    /**
+     * sort a lsit of stores by category
+     * @param list arraylist of stores to get sorted
+     * @return arralist of stores sorted
+     */
     @Override
     public ArrayList<Store> sort(ArrayList<Store> list) {
             Collections.sort(list, new Comparator<Store>(){
